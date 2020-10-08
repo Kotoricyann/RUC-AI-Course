@@ -8,10 +8,11 @@
 #include<iostream>
 #include <queue>
 #include <vector>
-#include <unordered_set>
+#include <set>
 #include <unordered_map>
 #include<memory>
 #include <cstdlib>
+#include <cmath>
 
 
 using namespace std;
@@ -24,6 +25,7 @@ private:
     int layer;
     int id;
     int parentId;
+    int score;
     vector<int> map;
 
     //基本操作
@@ -35,9 +37,12 @@ private:
     int moveRight();
     int randomMove();
 
+    //others
+    bool operator<(const Status& a) const{ return score > a.score;};
 public:
     Status(/* args */);
     ~Status();
+    
 
     //变量操作
     int getLayer(){return layer;};
@@ -49,24 +54,38 @@ public:
     int getPId(){return parentId;};
     void setPId(int tmp){ parentId=tmp; };
 
+    int getScore(){return score;};
+    int countScore();
+
+    vector<int> getMap(){return map;};
+
     //其他方法
     int move(int pos);
     void randomWalk(int times);
-    int countScore();
+    
     void printOut();
 };
 
-
+struct cmp{
+    bool operator()(shared_ptr<Status> a,shared_ptr<Status> b){
+        return a->getScore() > b->getScore();
+    }
+};
 
 class Astar
 {
 private:
     /* data */
-    //openset
+    
     //closeset
 public:
     Astar(/* args */);
     ~Astar();
+
+    priority_queue<shared_ptr<Status>, vector<shared_ptr<Status>>, cmp> openSet;
+    set<vector<int> > closeSet;
+
+
 };
 
 Astar::Astar(/* args */)

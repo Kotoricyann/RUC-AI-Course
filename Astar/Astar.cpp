@@ -2,12 +2,17 @@
 
 Status::Status(/* args */)
 {
-    map.resize(N*N+1);
+    map.reserve(N*N+1);
+    map.resize(N*N);
     for (int i = 0; i < N*N-1 ; i++)
     {
         map[i]=i+1;
     }
     map[N*N]=0;
+    layer = 0;
+    id = 0;
+    parentId = -1;
+    score = -1;
 }
 
 Status::~Status()
@@ -128,6 +133,24 @@ void Status::printOut(){
     return;
 }
 
+int Status::countScore(){
+    int fx = 0;
+    int gx = layer;
+
+    for (int i = 0; i < N*N; i++)
+    {
+        if (map[i]==0)
+        {
+            continue;
+        }
+        int t=map[i];
+        int dis = abs(t-i-1);
+        fx = fx + (dis/N) +(dis%N);
+    }
+    
+    score = gx + fx;
+    return score;
+}
 
 
 
@@ -142,11 +165,48 @@ void uniTestStatus(shared_ptr<Status> S){
     // S->printOut();
 
     S->randomWalk(11);
-
+    
     S->printOut();
+    cout<<"score:"<<S->countScore()<<endl;
     return;
 }
 
+void uniTestAstar(Astar& A){
+    shared_ptr<Status> p(new Status);
+    p->randomWalk(20);
+    p->countScore();
+
+    shared_ptr<Status> q(new Status);
+    q->randomWalk(10);
+    q->countScore();
+
+    A.openSet.push(p);
+    A.openSet.push(q);
+
+    while (!A.openSet.empty())
+    {
+        A.openSet.top()->printOut();
+        cout<<A.openSet.top()->getScore()<<endl;
+        if(A.closeSet.find( A.openSet.top()->getMap())==A.closeSet.end())A.closeSet.insert(A.openSet.top()->getMap());
+        A.openSet.pop();
+
+    }
+
+    for (set<vector<int> >::iterator it = A.closeSet.begin(); it!= A.closeSet.end(); it++)
+    {
+        for (int i = 0; i < it->size(); i++)
+        {
+            cout<<(*it)[i]<<' ';
+        }
+        cout<<endl;
+        
+    }
+    
+    
+
+
+    return;
+}
 
 
 
@@ -154,10 +214,18 @@ void uniTestStatus(shared_ptr<Status> S){
 int main(){
 
     N=3;
-    shared_ptr<Status> S(new Status);
-    uniTestStatus(S);
-    S.reset();
+    //shared_ptr<Status> S(new Status);
+    // uniTestStatus(S);
+    Astar A;
+    uniTestAstar(A);
+
+
+
     system("pause");
+
+
+
+
     return 0;
 
 }
