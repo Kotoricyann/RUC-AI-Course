@@ -62,7 +62,7 @@ public:
     //其他方法
     int move(int pos);
     void randomWalk(int times);
-    
+    void init();//初始状态
     void printOut();
 };
 
@@ -84,6 +84,8 @@ public:
 
     priority_queue<shared_ptr<Status>, vector<shared_ptr<Status>>, cmp> openSet;
     set<vector<int> > closeSet;
+
+    void sovleOut(shared_ptr<Status> initial);
 
 
 };

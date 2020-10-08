@@ -117,7 +117,7 @@ void Status::randomWalk(int times){
     }
     return;
 }
-    int countScore();
+
 
 
 void Status::printOut(){
@@ -152,6 +152,11 @@ int Status::countScore(){
     return score;
 }
 
+void Status::init(){
+    setId(0);
+    setPId(-1);
+    setLayer(0);
+}
 
 
 void uniTestStatus(shared_ptr<Status> S){
@@ -208,16 +213,35 @@ void uniTestAstar(Astar& A){
     return;
 }
 
+void Astar::sovleOut(shared_ptr<Status> initial){
+
+
+
+}
 
 
 
 int main(){
 
+    int randomTime=0;
+
+    // cout<<"N=";
+    // cin>>N;
+
     N=3;
-    //shared_ptr<Status> S(new Status);
-    // uniTestStatus(S);
+
+    shared_ptr<Status> initial(new Status);
+
+    // cout<<"random time=";
+    // cin>>randomTime;
+
+    randomTime = 20;
+
+    initial->randomWalk(randomTime);
+
     Astar A;
-    uniTestAstar(A);
+
+    A.sovleOut(initial);
 
 
 
