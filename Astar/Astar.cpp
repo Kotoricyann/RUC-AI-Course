@@ -173,7 +173,7 @@ void Status::init(){
 }
 
 void Status::derive(shared_ptr<Status> obj){
-    cout<<"copy"<<endl;
+    //cout<<"copy"<<endl;
     id=++num;
     parentId=obj->getId();
     layer=obj->getLayer()+1;
@@ -182,6 +182,17 @@ void Status::derive(shared_ptr<Status> obj){
     {
         map[i]=obj->getMap()[i];
     }
+}
+int Status::isKey(){
+    for (int i = 0; i < map.size()-1; i++)
+    {
+        if (map[i]!=i+1)
+        {
+            return 0;
+        }
+        
+    }
+    return 1;
 }
 
 
@@ -218,23 +229,97 @@ void uniTestAstar(Astar& A){
     return;
 }
 
+void printOutCloseSet(set<vector<int> > cs){
+
+    for (set<vector<int> >::iterator it = cs.begin(); it!= cs.end(); it++)
+    {
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                cout<<(*it)[i*N+j]<<' ';
+            }
+            cout<<endl;
+            
+        }
+        cout<<endl;
+        
+    }
+}
+
+void Astar::prinOutPathSet(){
+    for (vector<Status>::iterator it = pathSet.begin(); it != pathSet.end(); it++)
+    {
+        it->printOut();
+        it->printPara();
+    }
+    
+}
+
+
 void Astar::sovleOut(shared_ptr<Status> initial){
     openSet.push(initial);
 
     while (!openSet.empty())
     {
         shared_ptr<Status> pt = openSet.top();
-        openSet.pop();
         closeSet.insert(pt->getMap());
+        pathSet.push_back(*pt);
+        openSet.pop();
+        
         for (int i = 0; i < 4; i++)//向四个方向派生
         {
-            /* code */
+            shared_ptr<Status> tmp(new Status);
+            tmp->derive(pt);
+            if (tmp->move(i)==1)
+            {
+                tmp->printOut();
+                tmp->printPara();
+                if (tmp->isKey()==1)
+                {
+                    /* return and find answer */
+                    cout<<"find answers!!"<<endl;
+                    return;
+                }
+                
+                set<vector<int> >::iterator it;
+                it=closeSet.find(tmp->getMap());
+                if (it==closeSet.end() )
+                {
+                    tmp->countScore();
+                    openSet.push(tmp);
+                }
+                
+            }
+            
         }
         
+    }
+
+    printOutCloseSet(closeSet);
+    prinOutPathSet();
+
+
+}
+
+
+void Astar::findPath(shared_ptr<Status> final){
+    vector<shared_ptr<Status> > stack;
+
+    stack.push_back(final);
+    int pid = final->getPId();
+
+    while (pid!=-1)
+    {
+        shared_ptr<Status> next = findParent()
     }
     
 
 
+}
+
+shared_ptr<Status> Astar::findById(int id){
+    shared_ptr<Status> parent;
 }
 
 void uniTestStatus(shared_ptr<Status> S){
@@ -273,18 +358,19 @@ int main(){
     // cout<<"random time=";
     // cin>>randomTime;
 
-    randomTime = 20;
+    randomTime = 2;
 
     initial->randomWalk(randomTime);
     initial->countScore();
     initial->printOut();
-    uniTestStatus(initial);
+    
+    //uniTestStatus(initial);
 
 
 
-    // Astar A;
+    Astar A;
 
-    // A.sovleOut(initial);
+    A.sovleOut(initial);
 
 
 

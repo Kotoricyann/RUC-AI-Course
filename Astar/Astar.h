@@ -18,6 +18,7 @@
 using namespace std;
 
 int N;//N宫格
+#define pathPair make_pair<int, shared_ptr<Status> >
 
 class Status
 {
@@ -66,7 +67,9 @@ public:
     void randomWalk(int times);
     void init();//初始状态
     void printOut();
+    void printPara(){ cout<<"id:"<<id<<" pid:"<<parentId<<" Layer:"<<layer<<" score:"<<score<<endl;};
     void derive(shared_ptr<Status> obj);
+    int isKey();
 };
 
 struct cmp{
@@ -87,8 +90,13 @@ public:
 
     priority_queue<shared_ptr<Status>, vector<shared_ptr<Status>>, cmp> openSet;
     set<vector<int> > closeSet;
+    vector<Status> pathSet;
 
     void sovleOut(shared_ptr<Status> initial);
+    void findPath(shared_ptr<Status> final);
+    void prinOutPathSet();
+
+    shared_ptr<Status> findById(shared_ptr<Status> child);
 
 
 };
