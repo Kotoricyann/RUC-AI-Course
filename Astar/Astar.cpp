@@ -19,7 +19,7 @@ Status::Status(/* args */)
 
 // Status::Status(const Status &obj)
 // {
-//     cout<<"æ‹·è´æž„é€ å‡½æ•°"<<endl;
+//     cout<<"¿½±´¹¹Ôìº¯Êý"<<endl;
 //     id=obj.id;
 //     parentId=obj.id;
 //     layer=obj.layer+1;
@@ -139,11 +139,11 @@ void Status::printOut(){
     {
         for (int j = 0; j < N; j++)
         {
-            cout<<map[i*N+j]<<' ';
+            cout<<setw(3)<<map[i*N+j]<<' ';
         }
         cout<<endl;
     }
-    cout<<getId()<<' '<<getPId()<<' '<<getLayer()<<' '<<getScore()<<endl;
+    //cout<<getId()<<' '<<getPId()<<' '<<getLayer()<<' '<<getScore()<<endl;
     return;
 }
 
@@ -214,7 +214,6 @@ void uniTestAstar(Astar& A){
         cout<<A.openSet.top()->getScore()<<endl;
         if(A.closeSet.find( A.openSet.top()->getMap())==A.closeSet.end())A.closeSet.insert(A.openSet.top()->getMap());
         A.openSet.pop();
-
     }
 
     for (set<vector<int> >::iterator it = A.closeSet.begin(); it!= A.closeSet.end(); it++)
@@ -224,7 +223,6 @@ void uniTestAstar(Astar& A){
             cout<<(*it)[i]<<' ';
         }
         cout<<endl;
-        
     }
     return;
 }
@@ -251,7 +249,7 @@ void Astar::prinOutPathSet(){
     for (vector<Status>::iterator it = pathSet.begin(); it != pathSet.end(); it++)
     {
         it->printOut();
-        it->printPara();
+        //it->printPara();
     }
     
 }
@@ -267,18 +265,21 @@ void Astar::sovleOut(shared_ptr<Status> initial){
         pathSet.push_back(*pt);
         openSet.pop();
         
-        for (int i = 0; i < 4; i++)//å‘å››ä¸ªæ–¹å‘æ´¾ç”Ÿ
+        for (int i = 0; i < 4; i++)//ÏòËÄ¸ö·½ÏòÅÉÉú
         {
             shared_ptr<Status> tmp(new Status);
             tmp->derive(pt);
             if (tmp->move(i)==1)
             {
-                tmp->printOut();
-                tmp->printPara();
+                // tmp->printOut();
+                // tmp->printPara();
                 if (tmp->isKey()==1)
                 {
                     /* return and find answer */
+                    cout<<"----------------------------------"<<endl;
                     cout<<"find answers!!"<<endl;
+                    cout<<"----------------------------------"<<endl;
+                    findPath(tmp);
                     return;
                 }
                 
@@ -295,11 +296,8 @@ void Astar::sovleOut(shared_ptr<Status> initial){
         }
         
     }
-
-    printOutCloseSet(closeSet);
-    prinOutPathSet();
-
-
+    //printOutCloseSet(closeSet);
+    //prinOutPathSet();
 }
 
 
@@ -308,18 +306,44 @@ void Astar::findPath(shared_ptr<Status> final){
 
     stack.push_back(final);
     int pid = final->getPId();
+    int step=0;
 
     while (pid!=-1)
     {
-        shared_ptr<Status> next = findParent()
+        shared_ptr<Status> next = findById(pid);
+        stack.push_back(next);
+        pid=next->getPId();
     }
-    
-
+    step=stack.size()-1;
+    while (!stack.empty())
+    {
+        shared_ptr<Status> tmp = stack.back();
+        tmp->printOut();
+        cout<<endl;
+        stack.pop_back();
+    }
+    cout<<"number of steps:"<<step<<endl;
 
 }
 
 shared_ptr<Status> Astar::findById(int id){
-    shared_ptr<Status> parent;
+    shared_ptr<Status> key(new Status);
+    for (vector<Status>::iterator it = pathSet.begin(); it != pathSet.end() ; it++)
+    {
+        if (it->getId()==id)
+        {
+            key->setId(it->getId());
+            key->setPId(it->getPId());
+            key->setLayer(it->getLayer());
+            key->setMap(it->getMap());
+            key->setScore(it->getScore());
+            return key;
+        }
+        
+    }
+    return NULL;
+    
+
 }
 
 void uniTestStatus(shared_ptr<Status> S){
@@ -347,18 +371,18 @@ int main(){
 
     int randomTime=0;
 
-    // cout<<"N=";
-    // cin>>N;
+    cout<<"ÎÊÌâ½×Êý£ºN=";
+    cin>>N;
 
-    N=3;
+    //N=3;
 
     shared_ptr<Status> initial(new Status);
     initial->init();
 
-    // cout<<"random time=";
-    // cin>>randomTime;
+    cout<<"Ëæ»ú´òÂÒ´ÎÊý£ºrandom time=";
+    cin>>randomTime;
 
-    randomTime = 2;
+    //randomTime = 10;
 
     initial->randomWalk(randomTime);
     initial->countScore();

@@ -13,11 +13,12 @@
 #include<memory>
 #include <cstdlib>
 #include <cmath>
+#include <iomanip>
 
 
 using namespace std;
 
-int N;//Nå®«æ ¼
+int N;//N¹¬¸ñ
 #define pathPair make_pair<int, shared_ptr<Status> >
 
 class Status
@@ -27,10 +28,10 @@ private:
     int id;
     int parentId;
     int score;
-    static int num;//çŠ¶æ€æ€»ç¼–å·
+    static int num;//×´Ì¬×Ü±àºÅ
     vector<int> map;
 
-    //åŸºæœ¬æ“ä½œ
+    //»ù±¾²Ù×÷
     void swap(int a, int b);
     int findPos();
     int moveUp();
@@ -47,7 +48,7 @@ public:
     ~Status();
     
 
-    //å˜é‡æ“ä½œ
+    //±äÁ¿²Ù×÷
     int getLayer(){return layer;};
     void setLayer(int tmp){ layer=tmp; };
 
@@ -59,13 +60,21 @@ public:
 
     int getScore(){return score;};
     int countScore();
+    void setScore(int tmp){score=tmp;};
 
     vector<int> getMap(){return map;};
+    void setMap(vector<int> tmp){
+        for (int i = 0; i < tmp.size(); i++)
+        {
+            map[i]=tmp[i];
+        }
+        
+    };
 
-    //å…¶ä»–æ–¹æ³•
+    //ÆäËû·½·¨
     int move(int pos);
     void randomWalk(int times);
-    void init();//åˆå§‹çŠ¶æ€
+    void init();//³õÊ¼×´Ì¬
     void printOut();
     void printPara(){ cout<<"id:"<<id<<" pid:"<<parentId<<" Layer:"<<layer<<" score:"<<score<<endl;};
     void derive(shared_ptr<Status> obj);
@@ -96,7 +105,7 @@ public:
     void findPath(shared_ptr<Status> final);
     void prinOutPathSet();
 
-    shared_ptr<Status> findById(shared_ptr<Status> child);
+    shared_ptr<Status> findById(int id);
 
 
 };
