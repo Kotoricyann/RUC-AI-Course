@@ -1,5 +1,7 @@
 #include "Astar.h"
 
+int Status::num = 0;
+
 Status::Status(/* args */)
 {
     map.reserve(N*N+1);
@@ -14,6 +16,18 @@ Status::Status(/* args */)
     parentId = -1;
     score = -1;
 }
+
+// Status::Status(const Status &obj)
+// {
+//     cout<<"拷贝构造函数"<<endl;
+//     id=obj.id;
+//     parentId=obj.id;
+//     layer=obj.layer+1;
+//     for (int i = 0; i < obj.map.size(); i++)
+//     {
+//         map[i]=obj.map[i];
+//     }
+// }
 
 Status::~Status()
 {
@@ -129,7 +143,7 @@ void Status::printOut(){
         }
         cout<<endl;
     }
-    cout<<endl;
+    cout<<getId()<<' '<<getPId()<<' '<<getLayer()<<' '<<getScore()<<endl;
     return;
 }
 
@@ -158,23 +172,17 @@ void Status::init(){
     setLayer(0);
 }
 
-
-void uniTestStatus(shared_ptr<Status> S){
-    S->printOut();
-    
-    // S->move(2);
-    // S->printOut();
-    // S->move(3);
-    // S->printOut();
-    // S->move(3);
-    // S->printOut();
-
-    S->randomWalk(11);
-    
-    S->printOut();
-    cout<<"score:"<<S->countScore()<<endl;
-    return;
+void Status::derive(shared_ptr<Status> obj){
+    cout<<"copy"<<endl;
+    id=obj->getId();
+    parentId=obj->getId();
+    layer=obj->getLayer()+1;
+    for (int i = 0; i < obj->getMap().size(); i++)
+    {
+        map[i]=obj->getMap()[i];
+    }
 }
+
 
 void uniTestAstar(Astar& A){
     shared_ptr<Status> p(new Status);
@@ -206,20 +214,34 @@ void uniTestAstar(Astar& A){
         cout<<endl;
         
     }
-    
-    
-
-
     return;
 }
 
 void Astar::sovleOut(shared_ptr<Status> initial){
+    openSet.push(initial);
 
 
 
 }
 
+void uniTestStatus(shared_ptr<Status> S){
+    S->printOut();
+    
+    // S->move(2);
+    // S->printOut();
+    // S->move(3);
+    // S->printOut();
+    // S->move(3);
+    // S->printOut();
 
+    //S->randomWalk(11);
+
+    shared_ptr<Status> Q(new Status);
+    Q->derive(S);
+    Q->printOut();
+    cout<<"score:"<<Q->countScore()<<endl;
+    return;
+}
 
 int main(){
 
@@ -231,6 +253,7 @@ int main(){
     N=3;
 
     shared_ptr<Status> initial(new Status);
+    initial->init();
 
     // cout<<"random time=";
     // cin>>randomTime;
@@ -238,10 +261,14 @@ int main(){
     randomTime = 20;
 
     initial->randomWalk(randomTime);
+    initial->printOut();
+    uniTestStatus(initial);
 
-    Astar A;
 
-    A.sovleOut(initial);
+
+    // Astar A;
+
+    // A.sovleOut(initial);
 
 
 

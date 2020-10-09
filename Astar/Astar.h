@@ -26,6 +26,7 @@ private:
     int id;
     int parentId;
     int score;
+    static int num;//状态总编号
     vector<int> map;
 
     //基本操作
@@ -41,6 +42,7 @@ private:
     bool operator<(const Status& a) const{ return score > a.score;};
 public:
     Status(/* args */);
+    //Status(const Status &obj);
     ~Status();
     
 
@@ -64,6 +66,7 @@ public:
     void randomWalk(int times);
     void init();//初始状态
     void printOut();
+    void derive(shared_ptr<Status> obj);
 };
 
 struct cmp{
