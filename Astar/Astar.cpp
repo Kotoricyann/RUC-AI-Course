@@ -174,9 +174,10 @@ void Status::init(){
 
 void Status::derive(shared_ptr<Status> obj){
     cout<<"copy"<<endl;
-    id=obj->getId();
+    id=++num;
     parentId=obj->getId();
     layer=obj->getLayer()+1;
+    score=obj->getScore();
     for (int i = 0; i < obj->getMap().size(); i++)
     {
         map[i]=obj->getMap()[i];
@@ -220,6 +221,18 @@ void uniTestAstar(Astar& A){
 void Astar::sovleOut(shared_ptr<Status> initial){
     openSet.push(initial);
 
+    while (!openSet.empty())
+    {
+        shared_ptr<Status> pt = openSet.top();
+        openSet.pop();
+        closeSet.insert(pt->getMap());
+        for (int i = 0; i < 4; i++)//向四个方向派生
+        {
+            /* code */
+        }
+        
+    }
+    
 
 
 }
@@ -238,6 +251,8 @@ void uniTestStatus(shared_ptr<Status> S){
 
     shared_ptr<Status> Q(new Status);
     Q->derive(S);
+    Q->move(3);
+    Q->countScore();
     Q->printOut();
     cout<<"score:"<<Q->countScore()<<endl;
     return;
@@ -261,6 +276,7 @@ int main(){
     randomTime = 20;
 
     initial->randomWalk(randomTime);
+    initial->countScore();
     initial->printOut();
     uniTestStatus(initial);
 
