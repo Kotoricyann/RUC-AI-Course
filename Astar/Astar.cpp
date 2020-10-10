@@ -132,8 +132,6 @@ void Status::randomWalk(int times){
     return;
 }
 
-
-
 void Status::printOut(){
     for (int i = 0; i < N; i++)
     {
@@ -323,7 +321,6 @@ void Astar::findPath(shared_ptr<Status> final){
         stack.pop_back();
     }
     cout<<"number of steps:"<<step<<endl;
-
 }
 
 shared_ptr<Status> Astar::findById(int id){
@@ -342,8 +339,6 @@ shared_ptr<Status> Astar::findById(int id){
         
     }
     return NULL;
-    
-
 }
 
 void uniTestStatus(shared_ptr<Status> S){
@@ -390,19 +385,9 @@ int main(){
     
     //uniTestStatus(initial);
 
-
-
     Astar A;
-
     A.sovleOut(initial);
 
-
-
     system("pause");
-
-
-
-
     return 0;
-
 }
