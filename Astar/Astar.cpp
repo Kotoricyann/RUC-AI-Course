@@ -19,7 +19,7 @@ Status::Status(/* args */)
 
 // Status::Status(const Status &obj)
 // {
-//     cout<<"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½"<<endl;
+//     cout<<"¿½±´¹¹Ôìº¯Êý"<<endl;
 //     id=obj.id;
 //     parentId=obj.id;
 //     layer=obj.layer+1;
@@ -265,7 +265,7 @@ void Astar::sovleOut(shared_ptr<Status> initial){
         pathSet.push_back(*pt);
         openSet.pop();
         
-        for (int i = 0; i < 4; i++)//ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        for (int i = 0; i < 4; i++)//ÏòËÄ¸ö·½ÏòÅÉÉú
         {
             shared_ptr<Status> tmp(new Status);
             tmp->derive(pt);
@@ -371,7 +371,7 @@ int main(){
 
     int randomTime=0;
 
-    cout<<"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½N=";
+    cout<<"ÎÊÌâ½×Êý£ºN=";
     cin>>N;
 
     //N=3;
@@ -379,7 +379,7 @@ int main(){
     shared_ptr<Status> initial(new Status);
     initial->init();
 
-    cout<<"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ï¿½random time=";
+    cout<<"Ëæ»ú´òÂÒ´ÎÊý£ºrandom time=";
     cin>>randomTime;
 
     //randomTime = 10;
@@ -387,11 +387,22 @@ int main(){
     initial->randomWalk(randomTime);
     initial->countScore();
     initial->printOut();
-
-    //uniTestStatus(initial);
-    Astar A;
-    A.sovleOut(initial);
     
+    //uniTestStatus(initial);
+
+
+
+    Astar A;
+
+    A.sovleOut(initial);
+
+
+
     system("pause");
+
+
+
+
     return 0;
+
 }
