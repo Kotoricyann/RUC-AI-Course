@@ -10,3 +10,6 @@ The course is about basic AI algorithms, which is taught by Pofessor Ruihua Song
 
   A search algorithm of $N \times N$ number sort, which is also called "数字华容道".
 
+* LCS
+  The program will find the maximum positives match of two sentences.
+
