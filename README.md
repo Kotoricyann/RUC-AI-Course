@@ -13,3 +13,6 @@ The course is about basic AI algorithms, which is taught by Pofessor Ruihua Song
 * LCS
   The program will find the maximum positives match of two sentences.
 
+* XGBoost
+  A simple binary classification task using XGBoost
+

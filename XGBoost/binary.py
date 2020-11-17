@@ -4,9 +4,9 @@ import xgboost as xgb
 from sklearn import metrics
 
 
-trainfile = np.loadtxt('XGBoost/dataset/train.csv', skiprows=1 , delimiter=',' )
-testfile = np.loadtxt('XGBoost/dataset/test.csv', skiprows=1 , delimiter=',' )
-validationfile = np.loadtxt('XGBoost/dataset/validation.csv', skiprows=1 , delimiter=',' )
+trainfile = np.loadtxt('./dataset/train.csv', skiprows=1 , delimiter=',' )
+testfile = np.loadtxt('./dataset/test.csv', skiprows=1 , delimiter=',' )
+validationfile = np.loadtxt('./dataset/validation.csv', skiprows=1 , delimiter=',' )
 
 traindata = trainfile[:,0:-1]
 trainlabel = trainfile[:,-1]
