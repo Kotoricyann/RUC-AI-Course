@@ -12,6 +12,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
+import time
 
 # 选取下面的8类
 selected_categories = [
@@ -31,6 +32,8 @@ newsgroups_train=fetch_20newsgroups(subset='train',
 newsgroups_test=fetch_20newsgroups(subset='train',
                                     categories=selected_categories,
                                     remove=('headers','footers','quotes'))
+# newsgroups_train=fetch_20newsgroups(subset='train')
+# newsgroups_test=fetch_20newsgroups(subset='train')
 
 train_texts=newsgroups_train['data']
 train_labels=newsgroups_train['target']
@@ -41,81 +44,105 @@ print(len(train_texts),len(test_texts))
 # 贝叶斯
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',MultinomialNB())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("MultinomialNB准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("MultinomialNB准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # SGD
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',SGDClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("SGDClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("SGDClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # LogisticRegression
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',LogisticRegression())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("LogisticRegression准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("LogisticRegression准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # SVM
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',SVC())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("SVC准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("SVC准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',LinearSVC())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("LinearSVC准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("LinearSVC准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',LinearSVR())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("LinearSVR准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("LinearSVR准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # MLPClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',MLPClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("MLPClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("MLPClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # KNeighborsClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',KNeighborsClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("KNeighborsClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("KNeighborsClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # RandomForestClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',RandomForestClassifier(n_estimators=8))])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("RandomForestClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("RandomForestClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # GradientBoostingClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',GradientBoostingClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("GradientBoostingClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("GradientBoostingClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # AdaBoostClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',AdaBoostClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("AdaBoostClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("AdaBoostClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
 
 # DecisionTreeClassifier
 text_clf=Pipeline([('tfidf',TfidfVectorizer(max_features=10000)),
                    ('clf',DecisionTreeClassifier())])
+time_start=time.time()
 text_clf=text_clf.fit(train_texts,train_labels)
 predicted=text_clf.predict(test_texts)
-print("DecisionTreeClassifier准确率为：",np.mean(predicted==test_labels))
+time_end=time.time()
+print("DecisionTreeClassifier准确率为：",np.mean(predicted==test_labels),' ',time_end-time_start)
